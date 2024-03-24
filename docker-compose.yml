@@ -1,0 +1,40 @@
+services:
+    left:
+      build: path
+      volumes:
+        - "./player:code/app"
+      networks:
+        - game-of-life
+      depends_on:
+        rabbitMQ
+      environment:
+        SIGNATURE: 'left'
+
+    right: 
+      build: path
+      volumes:
+        - "./player:code/app"
+      networks:
+        - game-of-life
+      depends_on:
+        rabbitMQ
+      environment:
+        SIGNATURE: 'right'
+
+    un:
+      build: path
+      networks:
+        - game-of-life
+      depends_on:
+        rabbitMQ
+
+    rabbitMQ:
+      image: rabbitmq:3
+      hostname: my-rabbit
+      container_name: some-rabbit
+      networks:
+        - game-of-life
+
+    networks:
+      - game-of-life
+
